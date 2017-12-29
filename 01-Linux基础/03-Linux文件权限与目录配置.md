@@ -48,6 +48,8 @@ dr-xr-xr-x. 18 root root 4096 Dec 29 14:15 ..
 
  ![文件类型与权限的内容](03-图片/文件类型与权限的内容.png)
 
+
+
 * 第一个字符代表这个文件是目录、文件或链接文件等等。
 
 | 简写 | 含义 | 举例 |
@@ -84,7 +86,35 @@ dr-xr-xr-x. 18 root root 4096 Dec 29 14:15 ..
 * 如果这个文件被修改的时间距离现在太久了，那么时间部分仅会显示年份而已。
 * 如果想要显示完整的时间格式：ls -al -full-time
 
-### 第七栏： 这个文件的档名
+#### 第七栏： 这个文件的档名
 * 如果档名之前多了一个 **.**，则代表这个文件为隐藏文件
 
 ## 03.2.2 如何改变文件属性与权限
+* chgrp：改变文件所属群组
+* chown：改变文件拥有着
+* chmod：改变文件的权限，SUID,SGID,SUIT等等的特性
+
+### chgrp：改变所属群组
+* chgrp = change group
+* 语法： chgrp [-R] group dirname/filename
+```
+ -R：进行递归（recursive）的持续更变，
+     亦即连同次目录下的所有文件、目录都更新成为这个群组之意。
+     常常用在变更某一目录内所有文件之情况。
+```
+* 前提：要被改变的组名必须要在 /etc/group 文件内存在才行哦~
+* 例1：将/home下的b.txt修改到testing组（不存在），
+```
+[root@i-jjr0xl1a /]# chgrp testing /home/b.txt
+chgrp: invalid group: ‘testing’
+```
+* 例2：将/home下的b.txt修改到jun组（存在）
+```
+[root@i-jjr0xl1a /]# chgrp jun /home/b.txt
+[root@i-jjr0xl1a /]# ls -al -h /home/b.txt
+-rw-r--r-- 1 root jun 0 Dec 29 17:38 /home/b.txt
+```
+
+### chown：改变文件拥有者
+* chown =  change owner
+* 语法： chown [-R] 账号名称 文件或目录 / chown [-R] 账号名称：组名 文件或目录
