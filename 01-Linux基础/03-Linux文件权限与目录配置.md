@@ -14,7 +14,7 @@
 
 ## 03.2 文件权限概念
 ### Linux文件属性
-* 用ls -al 文件名查看：
+* 用ls -al 文件名查看（包括隐藏文件）：
 ```
 [root@i-jjr0xl1a ~]# ls -al
 total 32
