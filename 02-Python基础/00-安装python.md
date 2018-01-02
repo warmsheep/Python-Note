@@ -7,11 +7,11 @@
   * 32位：Windows x86 executable installer
 * 如何查看Windows系统中python是否安装成功？
   * 命令1：python.exe -V
+  * 命令2：python
 ```
 C:\Users\warms>python.exe -V
 Python 3.6.4
 ```
-  * 命令2：python
 ```
 C:\Users\warms>python
 Python 3.6.4 (v3.6.4:d48eceb, Dec 19 2017, 06:54:40) [MSC v.1900 64 bit (AMD64)] on win32
