@@ -118,4 +118,5 @@ chgrp: invalid group: ‘testing’
 ### chown：改变文件拥有者
 *
 * 语法： chown [-R] 账号名称 文件或目录
-chown [-R] 账号名称：组名 文件或目录
+chown [-R] 账号名称：组名 文件或目录32
+<!--  -->;P[\-]
