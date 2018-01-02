@@ -11,6 +11,7 @@
 C:\Users\warms>python.exe -V
 Python 3.6.4
 ```
+
   * 命令2：python
 ```
 C:\Users\warms>python
