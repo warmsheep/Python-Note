@@ -116,7 +116,29 @@ chgrp: invalid group: ‘testing’
 ```
 
 ### chown：改变文件拥有者
-*
-* 语法： chown [-R] 账号名称 文件或目录
-chown [-R] 账号名称：组名 文件或目录32
-<!--  -->;P[\-]
+* chown = change owner
+* 语法：
+  * chown [-R] 账号名称 文件或目录  
+  * chown [-R] 账号名称：组名 文件或目录(目录下的所有次目录或文件同时更改文件拥有者)
+```
+更改文件的所有者：
+[root@i-jjr0xl1a jun]# ls -al a.txt
+-rw-r--r-- 1 jun root 17 Jan  1 23:18 a.txt
+[root@i-jjr0xl1a jun]# chown root a.txt
+[root@i-jjr0xl1a jun]# ls -al a.txt
+-rw-r--r-- 1 root root 17 Jan  1 23:18 a.txt  
+```
+```
+递归更改目录及目录下的的文件所有者：
+[root@i-jjr0xl1a jun]# ls -dl luna
+drwxr-xr-x 2 root root 4096 Jan  2 18:28 luna
+[root@i-jjr0xl1a jun]# chown -R jun luna
+[root@i-jjr0xl1a jun]# ls -dl luna
+drwxr-xr-x 2 jun root 4096 Jan  2 18:28 luna
+[root@i-jjr0xl1a jun]# cd luna
+[root@i-jjr0xl1a luna]# ls -al
+total 8
+drwxr-xr-x 2 jun root 4096 Jan  2 18:28 .
+-rw-r--r-- 1 jun root    0 Jan  2 18:28 1.txt
+-rw-r--r-- 1 jun root    0 Jan  2 18:28 2.txt
+```
