@@ -18,6 +18,7 @@ Python 3.6.4 (v3.6.4:d48eceb, Dec 19 2017, 06:54:40) [MSC v.1900 64 bit (AMD64)]
 Type "help", "copyright", "credits" or "license" for more information.
 ```
 
+
 ## <font color=	#00FFFF>（二） Mac系统安装</font>
 * 打开python官网：**https://www.python.org/downloads/**
 * Downloads下载最新版本: **Python3.6.4**
