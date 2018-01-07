@@ -37,7 +37,7 @@ elif count>= 60 and count<= 80:
 else:
     print(count)
     count +=1
-print("------loop is ended---------")
+print("------loop is ended---------"S)
 
 #
 count = 1
