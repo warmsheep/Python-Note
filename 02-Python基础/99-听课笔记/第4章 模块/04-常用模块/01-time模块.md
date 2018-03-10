@@ -82,7 +82,7 @@
 |%Y	|Year with century as a decimal number.|	|
 |%z	|Time zone offset indicating a positive or negative time difference from UTC/GMT of the form +HHMM or -HHMM, where H represents decimal hour digits and M represents decimal minute digits [-23:59, +23:59].| |
 |%Z	|Time zone name (no characters if no time zone exists).|	|
-|%%	|A iteral '%' character.| |
+|%%	|A iteral '%' character.| -|
 
 最后为了容易记住转换关系，看下图
 
