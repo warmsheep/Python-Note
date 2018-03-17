@@ -5,6 +5,7 @@
 
 **时间戳————>元组（UTC=0）**
 
+
 ```python
 import time
 print(time.gmtime())

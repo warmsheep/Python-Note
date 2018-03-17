@@ -3,7 +3,9 @@
 
 * time.localtime([secs])：将一个时间戳转换为当前时区的struct_time(元组形式)。secs参数未提供，则以当前时间为准。
 
-**时间戳——>元组形式**
+
+**时间戳————>元组形式**
+
 
 ```python
 import time

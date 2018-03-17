@@ -14,9 +14,31 @@
 
 * pickle，用于python特有的类型 和 python的数据类型间进行转换
 
-Json模块提供了四个功能：**dumps、dump、loads、load**
+### Json模块提供了四个功能：dumps、dump、loads、load
 
-pickle模块提供了四个功能：**dumps、dump、loads、load**
+
+**1、json.dumps(obj)**
+* 序列化为str
+
+
+**2、json.dump(obj, fp)**
+* 序列化为str并写入文件
+
+
+**3、json.loads(obj)**
+* 只完成了反序列化
+
+
+**4、json.load(obj, fp)**
+* 只接收文件描述符，完成了读取文件和反序列化
+
+
+当数据很多的时候，看得就不是很直观方便，现在用一个参数来对json进行数据格式化输出使用 **indent=4** 这个参数
+
+
+
+### pickle模块提供了四个功能：dumps、dump、loads、load
+
 
 ```python
 import pickle

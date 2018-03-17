@@ -7,6 +7,9 @@
 * 如果参数未给或者为None的时候，将会默认time.time()为参数。它的作用相当于time.asctime(time.localtime(secs))。
 
 
+**时间戳————>字符串形式**
+
+
 ```python
 print(time.ctime())
 

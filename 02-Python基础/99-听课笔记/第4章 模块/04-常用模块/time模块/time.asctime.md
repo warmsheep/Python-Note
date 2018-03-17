@@ -6,6 +6,9 @@
 * 如果没有参数，将会将time.localtime()作为参数传入。
 
 
+**元组————>字符串**
+
+
 ```python
 print(time.asctime())
 
