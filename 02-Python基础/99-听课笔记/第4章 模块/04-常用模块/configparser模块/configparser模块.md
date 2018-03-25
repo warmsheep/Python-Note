@@ -73,29 +73,29 @@ config = ConfigParser.ConfigParser()
 config.read('i.cfg')
 
 # ########## 读 ##########
-#secs = config.sections()
-#print secs
-#options = config.options('group2')
-#print options
+secs = config.sections()
+print secs
+options = config.options('group2')
+print options
 
-#item_list = config.items('group2')
-#print item_list
+item_list = config.items('group2')
+print item_list
 
-#val = config.get('group1','key')
-#val = config.getint('group1','key')
+val = config.get('group1','key')
+val = config.getint('group1','key')
 
 # ########## 改写 ##########
-#sec = config.remove_section('group1')
-#config.write(open('i.cfg', "w"))
+sec = config.remove_section('group1')
+config.write(open('i.cfg', "w"))
 
-#sec = config.has_section('wupeiqi')
-#sec = config.add_section('wupeiqi')
-#config.write(open('i.cfg', "w"))
+sec = config.has_section('wupeiqi')
+sec = config.add_section('wupeiqi')
+config.write(open('i.cfg', "w"))
 
 
-#config.set('group2','k1',11111)
-#config.write(open('i.cfg', "w"))
+config.set('group2','k1',11111)
+config.write(open('i.cfg', "w"))
 
-#config.remove_option('group2','age')
-#config.write(open('i.cfg', "w"))
+config.remove_option('group2','age')
+config.write(open('i.cfg', "w"))
 ```

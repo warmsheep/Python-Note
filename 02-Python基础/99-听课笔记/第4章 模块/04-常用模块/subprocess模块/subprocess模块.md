@@ -48,6 +48,9 @@ subprocess.run(['df','-h'],stderr=subprocess.PIPE,stdout=subprocess.PIPE,check=T
 ```
 
 **涉及到管道|的命令需要这样写**
+* 管道直接写，不用拆分成列表的格式
+* 必须加上shell=True
+
 
 ```Python
 subprocess.run('df -h|grep disk1',shell=True) #shell=True的意思是这条命令直接交给系统去执行，不需要python负责解析
@@ -77,11 +80,11 @@ subprocess.run('df -h|grep disk1',shell=True) #shell=True的意思是这条命�
 b'total 0\ndrwxr-xr-x 12 alex staff 408 Nov 2 11:05 OldBoyCRM\n'
 ```
 
-## Popen()方法
+## Popen()方法 **重点**
 
 常用参数：
 
-* args：shell命令，可以是字符串或者序列类型（如：list，元组）
+* args：shell命令，可以是字符串或者序列类型（如：list，元组，字符串）
 * stdin, stdout, stderr：分别表示程序的标准输入、输出、错误句柄
 * preexec_fn：只在Unix平台下有效，用于指定一个可执行对象（callable object），它将在子进程运行之前被调用
 * shell：同上
