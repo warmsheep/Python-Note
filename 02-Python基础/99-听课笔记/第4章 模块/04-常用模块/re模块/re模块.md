@@ -55,7 +55,7 @@ result = re.match(pattern, string)
 
 **re.match(pattern, string, flags=0)**
 
-从起始位置开始根据模型去字符串中匹配指定内容，匹配单个
+从起始位置开始根据模型去字符串中匹配指定内容，匹配 **单个**
 
 * pattern 正则表达式
 * string 要匹配的字符串
@@ -109,6 +109,13 @@ print obj
 
 **re.sub(pattern, repl, string, count=0, flags=0)**
 
+* pattern： 是re.compile()方法生成Pattern类型，也就是索要匹配的模式。
+* repl ： 可以是一段字符串，或者是一个方法
+* string： 需要被匹配和替换的原字符串
+* count： 指的是最大的可以被替换的匹配到的字符串的个数，默认为0，就是所有匹配到的字符串。
+* flags ： 标志位
+
+
 用于替换匹配的字符串
 
 ```python
@@ -122,6 +129,18 @@ re.sub('\d+','|', 'alex22wupeiqi33oldboy55',count=2)
 
 
 **re.split(pattern, string, maxsplit=0, flags=0)**
+
+* re.split()按照pattern的出现来分割string。如果pattern被括号包围，则将pattern也放在结果的list里返回。
+* 如果maxsplit不是0，则最多maxsplit次分割，其余部分作为一个整体放到结果list的最后
+
+```python
+In [17]: re.split('\W+', 'hello, world, use - python')
+Out[17]: ['hello', 'world', 'use', 'python']
+
+
+In [18]: re.split('(\W+)', 'hello, world, use - python') #pattern也在结果列表里
+Out[18]: ['hello', ', ', 'world', ', ', 'use', ' - ', 'python']
+```
 
 整个字符串匹配成功就返回re object, 否则返回None
 
