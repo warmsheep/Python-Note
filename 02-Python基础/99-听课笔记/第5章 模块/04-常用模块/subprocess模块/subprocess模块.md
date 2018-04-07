@@ -104,7 +104,7 @@ a=subprocess.Popen('sleep 10',shell=True,stdout=subprocess.PIPE)
 
 Popen调用后会返回一个对象，可以通过这个对象拿到命令执行结果或状态等，该对象有以下方法
 
-poll()
+poll() 获取执行结果，检测有没有执行
 
 Check if child process has terminated. Returns returncode
 
