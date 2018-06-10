@@ -1,0 +1,66 @@
+回顾
+1.mysql:文件管理的软件
+2.三部分
+  - 服务端
+  - sql语句
+  - 客户端
+3.客户端
+  - mysql
+  - navicate
+4.授权操作
+  - 用户操作
+  - 授权操作
+5.sql语句
+  - 数据库操作
+  -create database xx default charset utf8;
+  -drop database xxx;
+  -数据表
+    -列
+      - 数字
+        整数
+        小数:float\double\decimal
+      - 时间
+      - 字符串
+        varchar,char,255,字符
+      - 二进制
+    -其他:引擎(支持事物，原子性操作)，字符编码，起始值
+    - 主键(非空且唯一)索引
+    - 唯一索引(唯一，可以为空)
+    - 外键
+      - 一对一
+      - 一对多
+      - 多对多
+  -数据行
+    - 增
+    - 删
+    - 改
+    - 查
+      - in  not in
+      - between and
+      - limit
+      - group by
+      - order by
+      - having
+      - like "%a"
+      - left/right/inner join on 关系
+## 补充
+回顾:
+  sql语句
+    数据行:
+      临时表
+      指定映射
+      条件:
+        case when id>8 then xx else xx end
+      三元运算:
+      if(isnull(xx),0,1)
+      补充:union
+        左右连表:join
+        上下连表:union 但是要求列数相同
+        #自动去重
+        select id,name from tb1
+        union
+        select num,sname from  tb2;
+        #不去重
+        select id,name from tb1
+        union all
+        select num,sname from  tb2;
