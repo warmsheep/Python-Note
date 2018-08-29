@@ -1336,15 +1336,15 @@ alert(nowd4.toLocaleString( ));
 ```js
 获取日期和时间
 getDate()                 获取日
-getDay ()                 获取星期
-getMonth ()               获取月（0-11）
-getFullYear ()            获取完整年份
-getYear ()                获取年
-getHours ()               获取小时
-getMinutes ()             获取分钟
-getSeconds ()             获取秒
-getMilliseconds ()        获取毫秒
-getTime ()                返回累计毫秒数(从1970/1/1午夜)
+getDay()                 获取星期
+getMonth()               获取月（0-11）
+getFullYear()            获取完整年份
+getYear()                获取年
+getHours()               获取小时
+getMinutes()             获取分钟
+getSeconds()             获取秒
+getMilliseconds()        获取毫秒
+getTime()                返回累计毫秒数(从1970/1/1午夜)
 ```
 
 #### 练习实例：
@@ -1504,11 +1504,6 @@ Math是内置对象 , 与Global的不同之处是, 在调用时 需要打出 "Ma
 * Math.exp(x) -- 返回 e 的指数。
 * Math.floor(x) -- 对数进行下舍入。
 * Math.log(x) -- 返回数的自然对数（底为e）。
-* Math.max(x,y) -- 返回 x 和 y 中的最高值。
-* Math.min(x,y)  -- 返回 x 和 y 中的最低值。
-* Math.pow(x,y) -- 返回 x 的 y 次幂。
-* Math.random() -- 返回 0 ~ 1 之间的随机数。
-* Math.round(x) -- 把数四舍五入为最接近的整数。
 * Math.sin(x) --  返回数的正弦。
 * Math.sqrt(x) -- 返回数的平方根。
 * Math.tan(x) -- 返回角的正切。
@@ -1531,6 +1526,7 @@ function 函数名 (参数){
     return 返回值  
 }
 ```
+
 function也可以不加return，默认返回undefined;
 
 #### 功能说明：
@@ -1592,6 +1588,7 @@ func1("yuan")
 如前所述，函数属于引用类型，所以它们也有属性和方法。
 
 比如，ECMAScript 定义的属性 length 声明了函数期望的参数个数。
+
 ```js
 alert(func1.length)//返回func1的参数的个数，类似于python中的*args
 ```
@@ -1601,7 +1598,7 @@ alert(func1.length)//返回func1的参数的个数，类似于python中的*args
 Function 对象也有与所有对象共享的 valueOf() 方法和 toString() 方法。这两个方法返回的都是函数的源代码，在调试时尤其有用。
 
 ```js
-alert(void(fun1(1,2)))
+alert(void(func1(1,2)))//函数func1永远返回undefined
 ```
 
 运算符void()作用：拦截方法的返回值　
@@ -2032,9 +2029,9 @@ var ID = setTimeout(abc,2000); // 只调用一次对应函数.
 * length  返回浏览器历史列表中的 URL 数量。
 
 ##### History 对象方法
-* back()    加载 history 列表中的前一个 URL。
-* forward()    加载 history 列表中的下一个 URL。
-* go()    加载 history 列表中的某个具体页面。
+* history.back()    加载 history 列表中的前一个 URL。
+* history.forward()    加载 history 列表中的下一个 URL。
+* history.go()    加载 history 列表中的某个具体页面。
 
 ```js
 <a href="rrr.html">click</a>
@@ -2079,7 +2076,7 @@ W3C DOM 标准被分为 3 个不同的部分：
 ![DOM对象](./JS图片/DOM对象.png)
 
 #### 节点(自身)属性:
-* ttributes - 节点（元素）的属性节点
+* attributes - 节点（元素）的属性节点
 * nodeType – 节点类型
   * 元素element
   * 属性attr
@@ -2095,7 +2092,7 @@ W3C DOM 标准被分为 3 个不同的部分：
   * 属性节点的 nodeName 是属性名称
   * 文本节点的 nodeName 永远是 #text
   * 文档节点的 nodeName 永远是 #document
-  **注释：** nodeName 所包含的 XML 元素的标签名称永远是大写的.
+  **注意：** nodeName 所包含的 XML 元素的标签名称永远是大写的.
 * innerHTML - 节点（元素）的文本值
 * innerText - 节点的内容
 
