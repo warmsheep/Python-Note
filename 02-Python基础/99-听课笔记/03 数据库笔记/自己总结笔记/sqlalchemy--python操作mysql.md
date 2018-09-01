@@ -3,11 +3,7 @@ Python操作MySQL主要使用两种方式：
 * 原生模块 pymsql
 * ORM框架 SQLAchemy
 
-## pymysql(稍后补充)
-
-
-
-## sqlalchemy 和 ORM
+## sqlalchemy
 ### Part I: 基础知识
 #### 简介：
 SQLAlchemy是Python编程语言下的一款ORM框架，该框架建立在数据库API之上，使用关系对象映射进行数据库操作，简言之便是：将对象转换成SQL，然后使用数据API执行SQL并获取执行结果。
@@ -25,7 +21,7 @@ ORM：Object Relationl Mapping，对象关系映射。
 * 自动化意味着映射和关联管理，代价是牺牲性能
 * 现在的各种ORM框架都在尝试使用各种方法来减轻这块(LazyLoad, Cache)，效果还是很显著的。
 
-![sqpalchem原理](image/sqlalchemy原理.png)
+![sqpalchem原理](../image/sqlalchemy原理.png)
 
 ### PartII: 架构与流程
 #### sqlalchemy流程
@@ -795,3 +791,5 @@ for tb in tables:
         tb_list.append(tb_name)
 print(tb_list)
 ```
+
+ORM

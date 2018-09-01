@@ -838,7 +838,795 @@ for item in results:
 3.分页
 
 
+上节回顾:
+1.CBV FBV
+2.数据库操作
+
+  - 跨表
+    - 正向
+      取的时候跨表
+      q = models.UserInfo.objects.all().first()
+      q.ug.title
+      查的时候跨表
+      models.UserInfo.objects.values('nid','ug_id','ug__title')
+      models.UserInfo.objects.values_list('nid','ug_id','ug__title')
+    - 反向
+      1.对象:小写表名__set
+        obj = UserGrop.objects.all().first()
+        result = obj.userinfo_set.all() 里面是userinfo的对象，反向操作
+      2.values/values_list,直接小写表名
+        v = UserGrop.objects.values('id','title')
+        v = models.UserType.objects.values('id','title','小写表名')
+        v = models.UserType.objects.values('id','title','小写表名__字段')
+      PS：前面的所有数据都会显示
+    - 其他
+      - 增删改查
+      UserInfo.objects.all()
+      UserInfo.objects.filter(id=1,name='egon')
+      UserInfo.objects..all().first()
+      UserInfo.objects.all().count()
+      UserInfo.objects.update()
+      UserInfo.objects.delete()
+      UserInfo.objects.all()[1:10]
+      跨表
+      正向
+      xxx.filter('ut__title'='超级用户').values('id','name','ut_title')
+      反向
+      xxx.filter('小写表名__title'='超级用户').values('id','name','表名_title')
+3.分页组件
+  - 内置
+  - 自定义
+
+
+今日任务:
+  1.Django ORM操作
+    - 增删改查
+    - 其他:
+      v.query,查看sql语句
+      # Q: 用于构造复杂的查询条件
+        # 用法一: 直接使用
+        # 用法二：对象添加
+      # F
+      # extra方法
+      # a.
+      # select
+      # select_params = None
+      # where = None
+      # params = None;
+      # select * from 表 where 此处
+
+      # order_by = None
+      # select * from 表 order by 此处
+
+      models.UserInfo.objects.extra(
+        select = {'newid':'select count(1) from app01_usertype where id>%s'},
+        select_params = [1,],
+        where = ['age>%s'],
+        params = [18,],
+        order_by = ['-age'],
+        tables = ['app01_usertype'],
+        )
+
+        """
+        select
+          app01_userinfo.id,
+          (select count(1) from app01_usertype where id>1) as newid
+        from app01_userinfo,app01_usertype
+        where
+          app01_userinfo.age>18
+        order_by app01_userinfo.age desc;
+        """
+        # 原生SQL语句
+        除了extra,实在写不出来，就用原生sql语句，row方法
+        result = models.UserInfo.objects.raw('select * from userinfo')
+        [obj,obj]
+
+        result = models.UserInfo.objects.raw('select id,1 as name,2 as age,4 as ut_id from usertype')
+        转换为userinfo对象，名称必须一致，不然会报错
+        [obj,obj]
+
+        9.简单的操作
+        数据源
+        mysql。sqllite不能再distinct中传参数，只能在values里面传参数
+        models.UserInfo.objects.values('id','name').distinct()
+        postgrelsql
+        models.UserInfo.objects.distinct('nid')
+
+        reverse只有在前面有order_by才有用
+
+        defer
+        only
+
+        aggregate： 不分组，整个表是一组
+
+
+  ORM操作整理
+  2.xss攻击
+    django自动解决了xss攻击
+    如果写了safe
+
+
+  3.CSRF
+  4.模板引擎
+    - 部分方法
+    - 自定义方法
+
+
+今日内容:
+上节回顾(补充):
+1.数据操作
+  - 增加
+    - models.xxx.objects.create(title='xxx')
+    - obj = models.xxx(title = 'xxx')
+      obj.save
+    - filter()
+      - filter().update()
+      - filter().delete()
+    - .all()
+    - .values()
+    - .values_list() #反：小写表名
+    - .count()
+    - bulk_create(列表,n)
+    - only
+    - defer
+    - F
+    - Q
+    - filter().a....filter()
+    - order_by('-nid','name')
+    - extra
+      - select = {x:''} select '' as fro。。。。
+      - select_params
+      - tables=['x','y']
+      - where
+      - order_by
+      - params
+    - filter(id__range=[1,3])
+    - exclude
+    - exist
+    - anotate()
+    - raw()
+    - filter(id__gt)
+    - filter(id__lt)
+    - filter(id__gte)
+    - filter(id__lte)
+    - .first()
+    - starswith
+    - endswith
+    - contains
+    - last()
+    - connection connect
+    - max,min,count,sum,avg
+    - reverse
+    - migrate
+    - makemigrations
+    - distinct
+    - reverse
+    - distinct
+    - get()
+    - date
+    - get_all_create
+    - update_or_create
+    - filter(age__isnull=True)判断为空
+    - using
+    class Foo:
+      xx = in
+      dic = {'name':xx,}
+      create(\*\*dic)
+    更新
+    models.xx.objects.filter(id=1).update(a=1,b=2)
+    models.xx.objects.filter(id=1).update(\*\*dic)
+    查询
+    models.xx.objects.filter(id=1)
+    models.xx.objects.filter(\*\*{}) and条件查询，用字典解决
+    Django帮助我们数据转换 -> 字典 =》 Form组件(用户请求规则验证+数据字典)
+
+    补充:
+
+
+2.xss攻击
+
+3.cookie
+
+1.Csrf
+2.模板引擎
+3.中间件
 
 
 作业:
   1.学员管理原生sql替换掉
+
+
+CSRF：
+a.基本应用
+form表单中添加
+{% csrf_token %}
+b.全部禁用
+注释掉csrf，整个网站不再做验证
+c.全局使用情况下，局部禁用
+from django.views.decorators.csrf import  csrf_exempt
+@csrf_exempt
+
+d.全局禁用情况下，局部使用
+ # 'django.middleware.csrf.CsrfViewMiddleware',
+ from django.views.decorators.csrf import csrf_exempt,csrf_protect
+ @csrf_protect
+
+
+ CBV
+
+
+ Ajax提交数据时候，携带CSRF：
+ a. 放置在data中携带
+ <body>
+<form action="/csrf1.html" method="post">
+    {% csrf_token %}
+    <input type="text" id="user" name="user"/>
+    <input type="submit" value="提交">
+    <a onclick="submitForm()">Ajax提交</a>
+
+</form>
+
+</body>
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script>
+    function submitForm() {
+        var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+        var user = $('#user').val();
+        $.ajax({
+            url:'/csrf1.html',
+            type:'POST',
+            data:{'user':user,'csrfmiddlewaretoken':csrf},
+            success:function (arg) {
+             console.log(arg)
+            }
+        })
+    }
+</script>
+
+b.放在请求头中:
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script src="/static/jquery.cookie.js"></script>
+function submitForm() {
+    var token = $.cookie('csrftoken');
+    var user = $('#user').val();
+    $.ajax({
+        url:'/csrf1.html',
+        type:'POST',
+        headers:{'X-CSRFToken':token,},
+        data:{'user':user},
+        success:function (arg) {
+         console.log(arg)
+        }
+    })
+}
+
+上节回顾:
+数据库操作
+  - app
+    - models.py
+      class Foo:
+        xx = 字段(数据库数据类型)
+        字符串
+          EmailField()
+          IPAddressField()
+          SlugField()
+          UUIDField()
+          FilePathField()
+          FileFiled()
+          ImageField()
+          CommaSeparatedIntegerField()
+        时间类
+          DateTimeField()
+        数字类:
+          num = models.IntegerField()
+          num = models.FloatField()
+          num = models.DecimalField(max_digits=30,decimal_places=10)
+        枚举(Django)：
+        color_list = (
+          (1,'黑色'),
+          (2,'白色'),
+          (3,'蓝色')
+        )
+        color = models.IntegerField(choices=color_list)也可以写成charfield
+        1.自己操作:
+          自己取，自己用
+        2.给Django admin使用
+        应用场景:选项固定
+        PS：FK选项动态，一成不变的choices
+
+        字段参数
+          null=True,
+          unique_for_date=True,
+          unique=True,
+          db_index=True,
+
+          class Meta:
+              unique_together = (
+                  ('email','ctime')
+              )
+              index_together = (
+                  ('email','ctime')
+              )
+
+        a.直接通过
+          models.UserInfo.objects.create()
+          - ModelForm
+        b.影响Django自带的管理工具admin
+
+
+CSRF: POST时，需要用户携带随机字符
+  - Form
+    - {% csrf_token%}
+  - Ajax
+    - data
+    - headers $.cookie(''),cookie中获取，添加到请求头中
+
+XSS攻击:
+  - 不要用safe
+  - mark_safe
+  - 过滤关键字
+
+Cookie:
+  - 放在用户浏览器的键值对
+  - 可以放很多，但是对于敏感信息不能放
+
+今日内容:
+1.模板
+2.中间件
+3.Session
+
+
+
+不考虑Django admin
+  - CharField IntegerField DecimalField DateTimeField DateField 枚举
+  参数
+  -
+  null
+  default
+  db_index
+  unique_for_date
+  primary_key
+  max_length
+
+  class Meta:
+    unique_together
+    index_together
+
+考虑Django admin
+- 字段:
+   做正则验证
+   邮箱
+   IP
+   URL
+   UUIDField
+   ...
+
+今日内容:
+1.模板
+  - 母版
+    - 页面继承
+  - include
+    - 导入小组件
+
+  - 函数->自动执行
+  - 模板自定义函数:
+    - simple_filter
+      - 最多两个参数，方式：{{第一个参数|函数名称:"第二个参数"}}
+      - 可以做条件判断
+    只支持2个参数，如果需要多个，一个参数，然后split，filter可以当做条件语句传进来
+    - simple_tag
+      - 无限制{% 函数名 参数 参数%}
+    但是tag不行
+  - 模板自定义函数:
+  - simple_filter
+
+3.Session
+Cookie是什么？
+  保存在客户端浏览器上的键值对
+Session是什么？
+  保存在服务端的数据(本质是键值对)
+  {
+    'sdfsadfasdfas':{'id':1,'name':'于浩'，email='xxx'}
+
+  }
+  应用：依赖Cookie
+  作用：保持会话（web网站）
+  好处：敏感信息不会直接给客户端
+
+梳理：
+  1、保存在服务端的数据（本质是键值对）
+  2、配置文件中
+    - 存储位置
+    - 超时时间，每次刷新更新时间
+  3、request.Session
+    - 增伤
+    - 获取随机字符串
+    - 主动设置超时时间 ***
+
+今日作业：相亲网
+1.登录session，装饰器
+2.数据表：
+  男生表
+    id username  password
+  女生表(男生和女生不能同名)
+    id username  password
+  男生女生关系表
+    nid  nid
+3.功能radio
+  登录页：
+    用户名：
+    密码：
+    性别：
+    一个月免登陆，checkbox:
+    查看异性列表：
+      session[性别]
+    查看与自己有染的异性列表
+
+今日内容：
+1.练习题
+2.补充自关联
+  M2M自关联特性
+    obj = models.UserInfo.objects.filter(id=1).first()
+    # from_userinfo_id
+    obj.m => select xx from xx where from_userinfo_id = 1;
+
+    # to_userinfo_id
+    obj.userinfo_set.all() => select xx from xx where to_userinfo_id = 1;
+
+  定义：
+    # 前面列：男生ID
+    # 后面列：女生ID
+  应用：
+    #男生对象
+    obj = models.UserInfo.objects.filter(id=1).first()
+    #根据男生ID=1查找关联的所有的女生
+    obj.m.all()
+
+
+    #女生对象
+    obj = models.UserInfo.objects.filter(id=4).first()
+    #根据女生ID=4查找关联的所有的男生
+    obj.userinfo_set.all()
+
+FK自关联：
+    class Comment(models.Model):
+      """
+      评论表
+      """
+      news_id = models.IntegerField()#新闻ID
+      content = models.CharField(max_length=32)#评论内容
+      user = models.CharField(max_length=32)#评论者
+      reply = models.ForeignKey('Comment',null=True,blank=True,on_delete=models.CASCADE)
+
+    """
+    新闻ID        reply_id
+    1 1 别说话 root null
+    2 1 就要说 root null
+    3 1 瞎说话 shaowei null
+    4 2 写的真好 root null
+    5 1 可拉倒吧 尤勤斌 2
+    """
+
+
+3.中间件
+4.Form组件
+
+今日内容：
+回顾+补充：
+  1.Django请求生命周期：
+    - url -> 视图
+    - 中间件 -> url -> 视图。。。
+    - 继续？
+    - web框架本质：socket
+    - 别人的socket+django
+  WSGI：
+    - wsgiref+Django
+    - uwsgi+Django
+  2.MVC MTV
+    - models(数据库相关，模型) views(html模板) controllers(业务处理) --> MVC
+    - models templates(模板) views(业务逻辑) --> MTV(Django)
+
+
+1.中间件
+- 类
+  process_request
+  process_response
+    必须有返回值
+    return response
+  process_view 和 process_request 区别
+  process_exception
+  procesee_tempalte_view
+- 注册中间件
+  [
+  ...
+  ]
+- 应用:对所有请求或一部分请求做批量处理
+
+2.form验证 ******
+- 需要对请求数据做验证
+- 获取到数据然后进行验证
+  - login: 邮箱验证
+  - register: 邮箱正则
+问题：
+  - 无法记住上次提交内容，页面刷新数据消失
+  - 重复进行用户数据校验：正则，长度，是否为空
+
+Django提供Form组件
+  1.定义规则
+    from django.forms import From
+    from django.forms import fields
+    class xxx(Form):
+        xx = fields.CharField(required=True,max_length,min_length,error_messages)
+  2.使用
+    obj = xxx(request.POST)
+    校验是否成功
+    v = obj.is_valid()
+    html标签name属性 = Form类字段名
+    #所有错误信息
+    obj.errors
+    #正确信息
+    obj.cleaned_data
+今日内容：
+1.Form组件
+  - 对用户提交数据进行校验
+    - Form提交(刷新，失去上次内容)保留上次输入的内容
+      a.LoginForm(Form)
+        字段名 = xxx.charfield()#本质验证规则，正则表达式
+        字段名 = xxx.charfield()#本质验证规则，正则表达式
+        字段名 = xxx.charfield()#本质验证规则，正则表达式
+        字段名 = xxx.charfield()#本质验证规则，正则表达式
+      b.obj = LoginForm(用户提交的数据)
+      c.obj.cleaned_data
+      d.obj.error_messages
+    - 内部原理
+    def login(request):
+      if request.method == 'GET':
+          return render(request,'login.html')
+      else:
+          obj = LoginForm(request.POST)
+          """
+          1.获取当前类中所有的字段 LoginForm实例化时，self.fields中
+              self.fields={
+                  'user':正则表达式,
+                  ‘pwd’:正则表达式,
+
+              }
+          2.循环self.fields
+              flag = True
+              for k,v in self.fields.items():
+                  k是：user,pwd
+                  v是：正则表达式
+                  input_value = request.POST.get(k)
+                  正则表达式和input_value
+                  flag = False
+              return flag
+          """
+          if obj.is_valid():
+              print(obj.cleaned_data)
+          else:
+              print(obj.errors)
+          return render(request,'login.html')
+
+          格式错误: invalid
+          数字就是max_value,min_value
+
+    - Ajax提交(不刷新，上次内容自动保留)
+    PS: ajax > Form
+    总结:
+      class Foo(Form):
+          字段 = 正则表达式
+          字段 = 自定义正则表达式
+          1.常用
+            CharField
+            ;;;
+            正则表达式
+
+  - 生成HTML标签
+  - 保留上次输入内容
+
+验证:
+1.类
+  字段 = 正则
+2.is_valid()
+
+生成HTML功能:
+1.类
+  字段 = 正则()
+
+保留上次提交的内容:
+1.生成HTML标签
+  obj = TestForm()
+  obj.t1 <input type='text' name='t1'/>
+  obj.t1 <input type='text' name='t1' value='xxx'/>
+
+
+疑问:
+1.选择:checkbox,select,radio
+  - 默认值
+  - 上次输入值
+2.自定义验证规则:
+  - RegexField
+  - 。。。
+  - 。。。 ****
+
+
+
+
+
+内容回顾:
+1.请求生命周期
+2.Session是什么？
+保存在服务端，
+3.XSS
+4.CSRF
+
+今日内容:
+1.Form组件
+  - 校验
+  - 保留上次输入内容(生成HTML标签)
+  a.多对多
+    - ChoiceField(可被替代)
+    - MultipleChoiceField
+  b.常用插件
+    - checkbox
+    - radio
+    - input
+    - textarea
+    - File
+  c.扩展
+  - 字段=默认正则表达式
+    - 额外正则
+  总结:
+  1.
+    as_p
+2.上传文件
+3.Ajax
+  - 原生Ajax
+  - jquery ajax
+  - 伪Ajax
+
+Ajax
+- 偷偷向后台发请求
+1.Ajax
+a.XMLHttpRequest
+b.jquery Ajax:内部基于“原生Ajax”
+    jQuery Ajax:
+    $.ajax({
+
+      })
+2.伪ajax，非XMLHttpRequest
+iframe标签: 不刷新发送HTTP请求
+
+JSONP
+  技巧，技术
+  Ajax存在:
+    访问自己域名URL
+    访问其他域名URL - 被阻止
+  浏览器:同源策略，
+    - 禁止：ajax跨域发送请求时，再回来时浏览器拒绝接受
+    - 允许: script标签没禁止
+
+  JSONP：钻空子
+    # http://www.baidu.com?p=1&name=xx
+    1.发送:
+      把数据拼接成，script放在html中
+      <script src='http://www.baidu.com?p=1&name=xx'></script>
+    2.func(123123123);
+
+
+跨域Ajax,非XMLhttpResponse
+今日内容:
+  - JSONP
+  - 项目:报障系统
+
+上节回顾:
+Form组件
+  1.类
+    字段 = 【正则，插件】
+  2.is_valid
+  扩展
+Ajax
+- 伪造ajax
+  iframe + form(target='')  
+  JS提交：
+    document.getElementById('f1').submit()
+- 原生Ajax
+  - XMLHttpRequest对象
+    - POST请求，注意请求头: content-type
+  - jQuery Ajax
+
+上传文件
+Form提交:
+
+Ajax上传:
+  ajax: formdata对象
+  伪造ajax
+
+JSONP
+同源策略:
+  -限制: Ajax
+  -不限制 script
+
+开发需求:向其他网站发HTTP请求
+  - 浏览器直接发送请求(考虑同源)
+  - 浏览器 -》服务端 -》发送请求
+要求:
+1.客户端
+  - url?callback=xxxx
+  - function xxxx(arg){}
+
+2.服务区
+  - 获取:funcname = request.GET.get(callback)
+  - 返回: funcname(...)
+
+
+将ajax调整为jsonp去发送
+datatype:'JSONP',
+
+JSONP内容总结:
+使用jsonp两种方式
+1.自己写动态创建script标签
+
+2.jQuery ajax
+其他:
+- 只能发GET请求
+- 约定：
+JSONP是一种方式，目的解决跨域问题
+
+
+
+CORS介绍
+
+
+∃n<sub>0</sub> ∈ N 和 c ∈ N<sup>+</sup> ，对所有的n ≥ n0都有：
+c<sub>1</sub>g(n) ≤ f(n) ≤ c<sub>2</sub>g(n)
+
+
+| 时间复杂度 | 相关名称 | 相关示例及说明 |
+|:-- |:-- |:-- |
+| θ(l) | 常数级 | 哈希表的查询与修改 |
+| θ(lgn) | 对数级 | 二分搜索，其对数基数不重要 |
+| θ(n) | 线性级 | 列表的遍历 |
+| θ(nlg(n)) | 线性对数级 | 任意值序列的最优化排序，其复杂度等同于θ(lgn!) |
+| θ(n<sup>2</sup>) | 平方级 | 拿n个对象进行相互对比 |
+| θ(n<sup>3</sup>) | 立方级 | Floyd-Warshall算法 |
+| Ω(n<sup>k</sup>) | 多项式级 | 基于n的k层嵌套循环(其中k为整数)，且必须满足常数k>0 |
+| O(k<sup>n</sup>) | 指数级 | 每n项产生一个自己(其中k=2)，且必须满足k>1 |
+| θ(n!) | 阶乘级 | 对n个值执行全排列操作 |
+
+```python
+seq=[1, 2, 3, ...,]
+s = 0
+for x in seq:
+    s += x
+```
+```python
+squares = [x**2 for x in seq]
+```
+
+```python
+s = 0
+for x in seq:
+  for y in seq:
+    s += x*y
+```
+
+```python
+s = 0
+for x in seq:
+  for y in seq:
+    s += x*y
+  for z in seq:
+    for w in seq:
+      s += x-w
+```
+
+```python
+import cProfile
+cProfile.run('main()')
+```
+
+
+```python
+python -m timeit -s"import mymodule as m" "m.myfunction()"
+```
