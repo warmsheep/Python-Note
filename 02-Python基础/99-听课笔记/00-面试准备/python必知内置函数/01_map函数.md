@@ -182,5 +182,5 @@ print(map(None, [2,4,6],[3,2,1]))
 
 输出结果：
 ```python
-TypeError: 'NoneType' object is not callable
+TypeError: 'NoneType' object is not callable test
 ```
