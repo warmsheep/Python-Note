@@ -1,4 +1,5 @@
 # Django框架基础知识
+还可以自己渲染，用replace代替
 基于第三方工具实现的模板渲染
 from jinjia2 import Template
 
